@@ -413,49 +413,52 @@
             }    
 
             function generatePDF(data) {
-                const addButton = document.getElementById('addWindowButton');
-                const saveButton = document.getElementById('saveButton');
-                const clearButton = document.getElementById('clearButton');
-                const commentButton = document.getElementById('commentButton');
-                
-                addButton.style.display = 'none';
-                saveButton.style.display = 'none';
-                clearButton.style.display = 'none';
-                commentButton.style.display = 'none';
-                
+    const addButton = document.getElementById('addWindowButton');
+    const saveButton = document.getElementById('saveButton');
+    const clearButton = document.getElementById('clearButton');
+    const commentButton = document.getElementById('commentButton');
 
-                // Extract customer name and order number from the data
-                const customerName = data.customerData.customerName;
-                const orderNumber = data.customerData.orderNumber;
+    addButton.style.display = 'none';
+    saveButton.style.display = 'none';
+    clearButton.style.display = 'none';
+    commentButton.style.display = 'none';
 
-                // Convert spaces to underscores and remove any special characters
-                const sanitizedCustomerName = customerName.replace(/\s+/g, '_').replace(/[^a-zA-Z0-9_]/g, '');
-                const sanitizedOrderNumber = orderNumber.replace(/\s+/g, '_').replace(/[^a-zA-Z0-9_]/g, '');
+    // Create a container element for all content
+    const contentContainer = document.createElement('div');
+    contentContainer.appendChild(document.querySelector('form'));
 
-                // Generate PDF with customer name and order number in the filename
-                html2pdf(document.body, {
-                    margin: 0,
-                    filename: `${sanitizedCustomerName}_${sanitizedOrderNumber}.pdf`, // Use customer name and order number in the filename
-                    image: { type: 'jpeg', quality: 0.98 },
-                    html2canvas: { scale: 2 },
-                    jsPDF: { unit: 'mm', format: 'a3', orientation: 'landscape' },
-                })
-                .then(() => {
-                    // Use setTimeout to ensure the buttons are shown after PDF generation
-                    setTimeout(() => {
-                        addButton.style.display = 'inline-block';
-                        saveButton.style.display = 'inline-block';
-                        clearButton.style.display = 'inline-block';
-                        commentButton.style.display = 'inline-block';
-                    }, 0);
-                })
-                .catch((error) => {
-                    console.error('Error generating PDF:', error);
-                    addButton.style.display = 'inline-block';
-                    saveButton.style.display = 'inline-block';
-                    learButton.style.display = 'inline-block';
-                });
-            }
+    // Extract customer name and order number from the data
+    const customerName = data.customerData.customerName;
+    const orderNumber = data.customerData.orderNumber;
+
+    // Convert spaces to underscores and remove any special characters
+    const sanitizedCustomerName = customerName.replace(/\s+/g, '_').replace(/[^a-zA-Z0-9_]/g, '');
+    const sanitizedOrderNumber = orderNumber.replace(/\s+/g, '_').replace(/[^a-zA-Z0-9_]/g, '');
+
+    // Generate PDF with customer name and order number in the filename
+    html2pdf(contentContainer, {
+        margin: 0,
+        filename: `${sanitizedCustomerName}_${sanitizedOrderNumber}.pdf`, // Use customer name and order number in the filename
+        image: { type: 'jpeg', quality: 0.98 },
+        html2canvas: { scale: 2 },
+        jsPDF: { unit: 'mm', format: 'a3', orientation: 'landscape' },
+    })
+    .then(() => {
+        // Use setTimeout to ensure the buttons are shown after PDF generation
+        addButton.style.display = 'inline-block';
+        saveButton.style.display = 'inline-block';
+        clearButton.style.display = 'inline-block';
+        commentButton.style.display = 'inline-block';
+    })
+    .catch((error) => {
+        console.error('Error generating PDF:', error);
+        addButton.style.display = 'inline-block';
+        saveButton.style.display = 'inline-block';
+        clearButton.style.display = 'inline-block';
+        commentButton.style.display = 'inline-block';
+    });
+}
+
 
             function clearWindowInfo() {
             // Clear window information fields

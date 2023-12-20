@@ -115,6 +115,34 @@
                 }
             }
 
+            #commentSection {
+                width: 97%;
+                margin: 10px auto;
+                background-color: #fff;
+                /*padding: 15px;*/
+                border-radius: 8px;
+                /*box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);*/
+            }
+
+            #commentSection h2 {
+                width: 100%;
+                text-align: center;
+                margin-bottom: 10px;
+                color: #3498db;
+                font-size: 18px;
+            }
+
+            #commentSection textarea {
+                width: 100%;
+                padding: 10px;
+                box-sizing: border-box;
+                margin-bottom: 10px;
+                border: 1px solid #ccc;
+                border-radius: 10px;
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                background-color: #fff;
+                font-size: 16px;
+            }
         </style>
     </head>
     <body>
@@ -256,6 +284,7 @@
         <button type="button" id="addWindowButton" onclick="addWindowSection()">Add Window</button>
         <button type="button" onclick="saveData()" id="saveButton">Save</button>
         <button type="button" onclick="clearWindowInfo()" id="clearButton">Clear</button>
+        <button type="button" onclick="createCommentSection()" id="commentButton">Add Comment</button>
 
         <script>
             let windowSectionCounter = 2; // Initialize the counter
@@ -387,9 +416,13 @@
                 const addButton = document.getElementById('addWindowButton');
                 const saveButton = document.getElementById('saveButton');
                 const clearButton = document.getElementById('clearButton');
+                const commentButton = document.getElementById('commentButton');
+                
                 addButton.style.display = 'none';
                 saveButton.style.display = 'none';
                 clearButton.style.display = 'none';
+                commentButton.style.display = 'none';
+                
 
                 // Extract customer name and order number from the data
                 const customerName = data.customerData.customerName;
@@ -413,6 +446,7 @@
                         addButton.style.display = 'inline-block';
                         saveButton.style.display = 'inline-block';
                         clearButton.style.display = 'inline-block';
+                        commentButton.style.display = 'inline-block';
                     }, 0);
                 })
                 .catch((error) => {
@@ -433,6 +467,38 @@
                     });
                 });
             }
+
+            function createCommentSection() {
+                // Check if the comment section already exists
+                const existingCommentSection = document.getElementById('commentSection');
+    
+                if (!existingCommentSection) {
+                    // Create a new comment section
+                    const commentSection = document.createElement('section');
+                    commentSection.id = 'commentSection';
+                    commentSection.style.marginTop = '20px';
+
+                    // Add a title for the comment section
+                    const commentTitle = document.createElement('h2');
+                    commentTitle.textContent = 'Comments';
+                    commentSection.appendChild(commentTitle);
+
+                    // Add a textarea for entering comments
+                    const commentTextarea = document.createElement('textarea');
+                    commentTextarea.name = 'comments';
+                    commentTextarea.id = 'comments';
+                    commentTextarea.rows = '4';
+                    commentTextarea.style.width = '100%';
+                    commentSection.appendChild(commentTextarea);
+
+                    // Append the comment section to the form
+                    const form = document.querySelector('form');
+                    form.appendChild(commentSection);
+                } else {
+                    console.log('Comment section already exists.');
+                }
+            }
+
     		var today = new Date().toLocaleDateString('en-CA'); // You can change 'en-CA' to your preferred locale
     		// Set the value of the date input field to today's date
     		document.getElementById('date').value = today;

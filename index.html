@@ -6,6 +6,9 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Measurement Sheet</title>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.4/jspdf.min.js"></script>
+
         <!--<script type="text/javascript" src="app.js"></script>-->
         <!--<link rel="stylesheet" type="text/css" href="styles.css" />-->
 
@@ -21,7 +24,7 @@
             form {
                 width: 97%;
                 margin: 10px auto;
-                background-color: #f2f2f2;
+                background-color: #fff;
                 padding: 15px;
                 border-radius: 8px;
                 box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
@@ -33,7 +36,7 @@
                 flex-wrap: wrap;
                 justify-content: space-between;
                 text-align: center;
-                font-size: 13px;
+                font-size: 16px;
             }
             
             select {
@@ -53,14 +56,13 @@
                 width: 100%;
             }
 
-            
             h2 {
                 width: 100%;
                 text-align: center;
-                margin-bottom: 10px;
+                margin-bottom: 15px;
                 color: #3498db;
-                font-size: 18px;
             }
+
             .form-group {
                 width: calc(48% - 10px);
                 margin-bottom: 15px;
@@ -116,36 +118,41 @@
             }
 
             #commentSection {
-                width: 97%;
-                margin: 10px auto;
-                background-color: #f2f2f2;
-                /*padding: 15px;*/
-                border-radius: 8px;
-                /*box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);*/
-            }
+    width: 97%;
+    margin: 10px auto;
+    background-color: #fff;
+    /*padding: 15px;*/
+    border-radius: 8px;
+    /*box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);*/
+}
 
-            #commentSection h2 {
-                width: 100%;
-                text-align: center;
-                margin-bottom: 10px;
-                color: #3498db;
-                font-size: 18px;
-            }
+#commentSection h2 {
+    width: 100%;
+    text-align: center;
+    margin-bottom: 10px;
+    color: #3498db;
+    font-size: 18px;
+}
 
-            #commentSection textarea {
-                width: 100%;
-                padding: 10px;
-                box-sizing: border-box;
-                margin-bottom: 10px;
-                border: 1px solid #ccc;
-                border-radius: 10px;
-                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-                background-color: #fff;
-                font-size: 16px;
-            }
+#commentSection textarea {
+    width: 100%;
+    padding: 10px;
+    box-sizing: border-box;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #fff;
+    font-size: 16px;
+}
+
         </style>
     </head>
     <body>
+                <button type="button" id="addWindowButton" onclick="addWindowSection()">Add Window</button>
+        <button type="button" onclick="saveData()" id="saveButton">Save</button>
+        <button type="button" onclick="clearWindowInfo()" id="clearButton">Clear</button>
+        <button type="button" onclick="createCommentSection()" id="commentButton">Add Comment</button>
         <form>
             <!-- Customer Information Section -->
             <h2>Customer Information</h2>
@@ -197,11 +204,11 @@
                 </div>
         
                 <div class="windowInfoSection" style="width: calc(5% - 5px);">
-                    <label for="mount">mount</label>
+                    <label for="mount">I/O:</label>
                     <select class="mount" name="mount" id="mount1" required>
                         <option value="mt5"> </option>
-                        <option value="inside">IN</option>
-                        <option value="outside">Out</option>
+                        <option value="inside">Inside</option>
+                        <option value="outside">Outside</option>
                     </select>
                 </div>
         
@@ -281,10 +288,11 @@
                 </div>
             </section>
         </form>
-        <button type="button" id="addWindowButton" onclick="addWindowSection()">Add Window</button>
+<!--         <button type="button" id="addWindowButton" onclick="addWindowSection()">Add Window</button>
         <button type="button" onclick="saveData()" id="saveButton">Save</button>
         <button type="button" onclick="clearWindowInfo()" id="clearButton">Clear</button>
-        <button type="button" onclick="createCommentSection()" id="commentButton">Add Comment</button>
+        <button type="button" onclick="createCommentSection()" id="commentButton">Add Comment</button> -->
+
 
         <script>
             let windowSectionCounter = 2; // Initialize the counter
@@ -412,52 +420,99 @@
                 generatePDF(pdfData);
             }    
 
+    //         function generatePDF(data) {
+    //             const addButton = document.getElementById('addWindowButton');
+    //             const saveButton = document.getElementById('saveButton');
+    //             const clearButton = document.getElementById('clearButton');
+    //             const commentButton = document.getElementById('commentButton');
+
+    //             addButton.style.display = 'none';
+    //             saveButton.style.display = 'none';
+    //             clearButton.style.display = 'none';
+    //             commentButton.style.display = 'none';
+
+    //             // Create a container element for all content
+    // const contentContainer = document.createElement('div');
+    // contentContainer.appendChild(document.querySelector('form'));
+
+    //             // Extract customer name and order number from the data
+    //             const customerName = data.customerData.customerName;
+    //             const orderNumber = data.customerData.orderNumber;
+
+    //             // Convert spaces to underscores and remove any special characters
+    //             const sanitizedCustomerName = customerName.replace(/\s+/g, '_').replace(/[^a-zA-Z0-9_]/g, '');
+    //             const sanitizedOrderNumber = orderNumber.replace(/\s+/g, '_').replace(/[^a-zA-Z0-9_]/g, '');
+
+    //             // Generate PDF with customer name and order number in the filename
+    //             html2pdf(contentContainer, {
+    //                 margin: 0,
+    //                 filename: `${sanitizedCustomerName}_${sanitizedOrderNumber}.pdf`, // Use customer name and order number in the filename
+    //                 image: { type: 'jpeg', quality: 0.98 },
+    //                 html2canvas: { scale: 2 },
+    //                 jsPDF: { unit: 'mm', format: 'a3', orientation: 'landscape', height: '100px', page-break-before: 'always'},
+    //             })
+    //             .then(() => {
+    //                 // Use setTimeout to ensure the buttons are shown after PDF generation
+    //                 setTimeout(() => {
+    //                     addButton.style.display = 'inline-block';
+    //                     saveButton.style.display = 'inline-block';
+    //                     clearButton.style.display = 'inline-block';
+    //                     commentButton.style.display = 'inline-block';
+    //                 }, 0);
+    //             })
+    //             .catch((error) => {
+    //                 console.error('Error generating PDF:', error);
+    //                 addButton.style.display = 'inline-block';
+    //                 saveButton.style.display = 'inline-block';
+    //                 learButton.style.display = 'inline-block';
+    //             });
+    //         }
+
+
+
+///////////////////////////////////////////////////////////////////////////WORKING///////////////////////////////////
             function generatePDF(data) {
-    const addButton = document.getElementById('addWindowButton');
-    const saveButton = document.getElementById('saveButton');
-    const clearButton = document.getElementById('clearButton');
-    const commentButton = document.getElementById('commentButton');
+                const addButton = document.getElementById('addWindowButton');
+                const saveButton = document.getElementById('saveButton');
+                const clearButton = document.getElementById('clearButton');
+                const commentButton = document.getElementById('commentButton');
+                addButton.style.display = 'none';
+                saveButton.style.display = 'none';
+                clearButton.style.display = 'none';
+                commentButton.style.display = 'none';
 
-    addButton.style.display = 'none';
-    saveButton.style.display = 'none';
-    clearButton.style.display = 'none';
-    commentButton.style.display = 'none';
+                // Extract customer name and order number from the data
+                const customerName = data.customerData.customerName;
+                const orderNumber = data.customerData.orderNumber;
 
-    // Create a container element for all content
-    const contentContainer = document.createElement('div');
-    contentContainer.appendChild(document.querySelector('form'));
+                // Convert spaces to underscores and remove any special characters
+                const sanitizedCustomerName = customerName.replace(/\s+/g, '_').replace(/[^a-zA-Z0-9_]/g, '');
+                const sanitizedOrderNumber = orderNumber.replace(/\s+/g, '_').replace(/[^a-zA-Z0-9_]/g, '');
 
-    // Extract customer name and order number from the data
-    const customerName = data.customerData.customerName;
-    const orderNumber = data.customerData.orderNumber;
+                // Generate PDF with customer name and order number in the filename
+                html2pdf(document.body, {
+    filename: `${sanitizedCustomerName}_${sanitizedOrderNumber}.pdf`,
+    image: { type: 'jpeg', quality: 0.98 },
+    html2canvas: { scale: 2 },
+    jsPDF: { unit: 'mm', format: 'a3', orientation: 'landscape' },
+})
 
-    // Convert spaces to underscores and remove any special characters
-    const sanitizedCustomerName = customerName.replace(/\s+/g, '_').replace(/[^a-zA-Z0-9_]/g, '');
-    const sanitizedOrderNumber = orderNumber.replace(/\s+/g, '_').replace(/[^a-zA-Z0-9_]/g, '');
-
-    // Generate PDF with customer name and order number in the filename
-    html2pdf(contentContainer, {
-        margin: 0,
-        filename: `${sanitizedCustomerName}_${sanitizedOrderNumber}.pdf`, // Use customer name and order number in the filename
-        image: { type: 'jpeg', quality: 0.98 },
-        html2canvas: { scale: 2 },
-        jsPDF: { unit: 'mm', format: 'a3', orientation: 'landscape' },
-    })
-    .then(() => {
-        // Use setTimeout to ensure the buttons are shown after PDF generation
-        addButton.style.display = 'inline-block';
-        saveButton.style.display = 'inline-block';
-        clearButton.style.display = 'inline-block';
-        commentButton.style.display = 'inline-block';
-    })
-    .catch((error) => {
-        console.error('Error generating PDF:', error);
-        addButton.style.display = 'inline-block';
-        saveButton.style.display = 'inline-block';
-        clearButton.style.display = 'inline-block';
-        commentButton.style.display = 'inline-block';
-    });
-}
+                .then(() => {
+                    // Use setTimeout to ensure the buttons are shown after PDF generation
+                    setTimeout(() => {
+                        addButton.style.display = 'inline-block';
+                        saveButton.style.display = 'inline-block';
+                        clearButton.style.display = 'inline-block';
+                        commentButton.style.display = 'inline-block';
+                    }, 0);
+                })
+                .catch((error) => {
+                    console.error('Error generating PDF:', error);
+                    addButton.style.display = 'inline-block';
+                    saveButton.style.display = 'inline-block';
+                    learButton.style.display = 'inline-block';
+                });
+            }
 
 
             function clearWindowInfo() {
@@ -471,36 +526,44 @@
                 });
             }
 
+
+
+
+
+
+
+
+
             function createCommentSection() {
-                // Check if the comment section already exists
-                const existingCommentSection = document.getElementById('commentSection');
+    // Check if the comment section already exists
+    const existingCommentSection = document.getElementById('commentSection');
     
-                if (!existingCommentSection) {
-                    // Create a new comment section
-                    const commentSection = document.createElement('section');
-                    commentSection.id = 'commentSection';
-                    commentSection.style.marginTop = '20px';
+    if (!existingCommentSection) {
+        // Create a new comment section
+        const commentSection = document.createElement('section');
+        commentSection.id = 'commentSection';
+        commentSection.style.marginTop = '20px';
 
-                    // Add a title for the comment section
-                    const commentTitle = document.createElement('h2');
-                    commentTitle.textContent = 'Comments';
-                    commentSection.appendChild(commentTitle);
+        // Add a title for the comment section
+        const commentTitle = document.createElement('h2');
+        commentTitle.textContent = 'Comments';
+        commentSection.appendChild(commentTitle);
 
-                    // Add a textarea for entering comments
-                    const commentTextarea = document.createElement('textarea');
-                    commentTextarea.name = 'comments';
-                    commentTextarea.id = 'comments';
-                    commentTextarea.rows = '4';
-                    commentTextarea.style.width = '100%';
-                    commentSection.appendChild(commentTextarea);
+        // Add a textarea for entering comments
+        const commentTextarea = document.createElement('textarea');
+        commentTextarea.name = 'comments';
+        commentTextarea.id = 'comments';
+        commentTextarea.rows = '4';
+        commentTextarea.style.width = '100%';
+        commentSection.appendChild(commentTextarea);
 
-                    // Append the comment section to the form
-                    const form = document.querySelector('form');
-                    form.appendChild(commentSection);
-                } else {
-                    console.log('Comment section already exists.');
-                }
-            }
+        // Append the comment section to the form
+        const form = document.querySelector('form');
+        form.appendChild(commentSection);
+    } else {
+        console.log('Comment section already exists.');
+    }
+}
 
     		var today = new Date().toLocaleDateString('en-CA'); // You can change 'en-CA' to your preferred locale
     		// Set the value of the date input field to today's date
@@ -510,6 +573,7 @@
 
         <script src="https://rawgit.com/eKoopmans/html2pdf/master/dist/html2pdf.bundle.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
+
     </body>
 </html>
 

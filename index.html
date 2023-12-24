@@ -24,20 +24,21 @@
             form {
                 width: 97%;
                 margin: 10px auto;
-                background-color: #e4e4e4;
+                background-color: #ececec;
                 padding: 15px;
                 border-radius: 8px;
                 box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
             }
 
             section {
-                margin-bottom: 15px;
+                margin-bottom: 25px;
                 display: flex;
                 flex-wrap: wrap;
                 justify-content: space-between;
                 text-align: center;
                 font-size: 16px;
-                padding-top: 1px;
+                padding-top: 22px;
+                page-break-inside: avoid;
             }
             
             select {
@@ -117,11 +118,12 @@
                     margin-right: 0;
                 }
             }
+            
 
             #commentSection {
     width: 97%;
     margin: 10px auto;
-    background-color: #e4e4e4;
+    background-color: #ececec;
     /*padding: 15px;*/
     border-radius: 8px;
     /*box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);*/
@@ -147,10 +149,15 @@
     font-size: 16px;
 }
 
+.page-break {
+    page-break-before: always;
+}
+
+
+
         </style>
     </head>
     <body>
-                <body>
         <div class="button-container" style="text-align: center;">
         <button type="button" id="addWindowButton" onclick="addWindowSection()">Add Window</button>
         <button type="button" onclick="saveData()" id="saveButton">Save</button>
@@ -192,15 +199,27 @@
                     <input type="text" class="depth" name="intallerName" id="intallerName" required placeholder="Soroush">
                 </div>
             </section>
+           
 
             <!-- Window Information Section (Dynamic) -->
             <h2>Window Information</h2>
             <section>
 
-                <div class="windowInfoSection" style="width: calc(15% - 60px);">
-                    <label for="room">ROOM:</label>
-                    <input type="text" class="room" name="room" id="room1" required>
+                <div class="windowInfoSection window-info" style="width: calc(100% - 5px);" >
+                    <!-- <label for="room">ROOM:</label> -->
+                    <input type="text" class="room" name="room" id="room1" style="background-color: #D8FFD3; font-weight: bold; " required>
                 </div>
+                <div class="windowInfoSection" style="width: calc(15% - 60px);">
+                    <label for="type">Type:</label>
+                    <select class="type" name="type" id="type1" required>
+                        <option value="mt6"> </option>
+                        <option value="Roller">Roller Shade</option>
+                        <option value="Cascade">Cascade</option>
+                        <option value="Horizantal">2" Horizantal</option>
+                        <option value="Vertical">Vertical</option>
+                    </select>
+                </div>
+        
 
                 <div class="windowInfoSection" style="width: calc(5% - 5px);">
                     <label for="quantity">QTY:</label>
@@ -292,15 +311,13 @@
                 </div>
             </section>
         </form>
- <body>
-         <div class="button-container" style="text-align: center;">
-<!--         <button type="button" id="addWindowButton" onclick="addWindowSection()">Add Window</button> -->
-<!--         <button type="button" onclick="saveData()" id="saveButton">Save</button>
-         <button type="button" onclick="clearWindowInfo()" id="clearButton">Clear</button>
-        <button type="button" onclick="createCommentSection()" id="commentButton">Add Comment</button>-->
+        <!-- <div class="button-container" style="text-align: center;"> -->
+        <!-- <button type="button" id="addWindowButton" onclick="addWindowSection()">Add Window</button> -->
+		    <!-- <button type="button" onclick="saveData()" id="saveButton">Save</button> -->
+ 	       <!-- <button type="button" onclick="clearWindowInfo()" id="clearButton">Clear</button> -->
+        <!-- <button type="button" onclick="createCommentSection()" id="commentButton">Add Comment</button> -->
 
-</div>
-
+<!-- </div> -->
         <script>
             let windowSectionCounter = 2; // Initialize the counter
 
@@ -427,57 +444,6 @@
                 generatePDF(pdfData);
             }    
 
-    //         function generatePDF(data) {
-    //             const addButton = document.getElementById('addWindowButton');
-    //             const saveButton = document.getElementById('saveButton');
-    //             const clearButton = document.getElementById('clearButton');
-    //             const commentButton = document.getElementById('commentButton');
-
-    //             addButton.style.display = 'none';
-    //             saveButton.style.display = 'none';
-    //             clearButton.style.display = 'none';
-    //             commentButton.style.display = 'none';
-
-    //             // Create a container element for all content
-    // const contentContainer = document.createElement('div');
-    // contentContainer.appendChild(document.querySelector('form'));
-
-    //             // Extract customer name and order number from the data
-    //             const customerName = data.customerData.customerName;
-    //             const orderNumber = data.customerData.orderNumber;
-
-    //             // Convert spaces to underscores and remove any special characters
-    //             const sanitizedCustomerName = customerName.replace(/\s+/g, '_').replace(/[^a-zA-Z0-9_]/g, '');
-    //             const sanitizedOrderNumber = orderNumber.replace(/\s+/g, '_').replace(/[^a-zA-Z0-9_]/g, '');
-
-    //             // Generate PDF with customer name and order number in the filename
-    //             html2pdf(contentContainer, {
-    //                 margin: 0,
-    //                 filename: `${sanitizedCustomerName}_${sanitizedOrderNumber}.pdf`, // Use customer name and order number in the filename
-    //                 image: { type: 'jpeg', quality: 0.98 },
-    //                 html2canvas: { scale: 2 },
-    //                 jsPDF: { unit: 'mm', format: 'a3', orientation: 'landscape', height: '100px', page-break-before: 'always'},
-    //             })
-    //             .then(() => {
-    //                 // Use setTimeout to ensure the buttons are shown after PDF generation
-    //                 setTimeout(() => {
-    //                     addButton.style.display = 'inline-block';
-    //                     saveButton.style.display = 'inline-block';
-    //                     clearButton.style.display = 'inline-block';
-    //                     commentButton.style.display = 'inline-block';
-    //                 }, 0);
-    //             })
-    //             .catch((error) => {
-    //                 console.error('Error generating PDF:', error);
-    //                 addButton.style.display = 'inline-block';
-    //                 saveButton.style.display = 'inline-block';
-    //                 learButton.style.display = 'inline-block';
-    //             });
-    //         }
-
-
-
-///////////////////////////////////////////////////////////////////////////WORKING///////////////////////////////////
             function generatePDF(data) {
                 const addButton = document.getElementById('addWindowButton');
                 const saveButton = document.getElementById('saveButton');
@@ -533,14 +499,6 @@
                 });
             }
 
-
-
-
-
-
-
-
-
             function createCommentSection() {
     // Check if the comment section already exists
     const existingCommentSection = document.getElementById('commentSection');
@@ -572,12 +530,18 @@
     }
 }
 
+function addPageBreak() {
+    const pageBreak = document.createElement('div');
+    pageBreak.className = 'page-break';
+    document.body.appendChild(pageBreak);
+}
+
+
     		var today = new Date().toLocaleDateString('en-CA'); // You can change 'en-CA' to your preferred locale
     		// Set the value of the date input field to today's date
     		document.getElementById('date').value = today;
             
-        </script>   
-
+        </script>
         <script src="https://rawgit.com/eKoopmans/html2pdf/master/dist/html2pdf.bundle.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
 

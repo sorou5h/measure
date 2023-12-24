@@ -442,47 +442,58 @@
             }    
 
             function generatePDF(data) {
-                const addButton = document.getElementById('addWindowButton');
-                const saveButton = document.getElementById('saveButton');
-                const clearButton = document.getElementById('clearButton');
-                const commentButton = document.getElementById('commentButton');
-                addButton.style.display = 'none';
-                saveButton.style.display = 'none';
-                clearButton.style.display = 'none';
-                commentButton.style.display = 'none';
+    const addButton = document.getElementById('addWindowButton');
+    const saveButton = document.getElementById('saveButton');
+    const clearButton = document.getElementById('clearButton');
+    const commentButton = document.getElementById('commentButton');
+    addButton.style.display = 'none';
+    saveButton.style.display = 'none';
+    clearButton.style.display = 'none';
+    commentButton.style.display = 'none';
 
-                // Extract customer name and order number from the data
-                const customerName = data.customerData.customerName;
-                const orderNumber = data.customerData.orderNumber;
+    // Extract customer name and order number from the data
+    const customerName = data.customerData.customerName;
+    const orderNumber = data.customerData.orderNumber;
 
-                // Convert spaces to underscores and remove any special characters
-                const sanitizedCustomerName = customerName.replace(/\s+/g, '_').replace(/[^a-zA-Z0-9_]/g, '');
-                const sanitizedOrderNumber = orderNumber.replace(/\s+/g, '_').replace(/[^a-zA-Z0-9_]/g, '');
+    // Convert spaces to underscores and remove any special characters
+    const sanitizedCustomerName = customerName.replace(/\s+/g, '_').replace(/[^a-zA-Z0-9_]/g, '');
+    const sanitizedOrderNumber = orderNumber.replace(/\s+/g, '_').replace(/[^a-zA-Z0-9_]/g, '');
 
-                // Generate PDF with customer name and order number in the filename
-                html2pdf(document.body, {
-                    filename: `${sanitizedCustomerName}_${sanitizedOrderNumber}.pdf`,
-                    image: { type: 'jpeg', quality: 0.98 },
-                    html2canvas: { scale: 2 },
-                    jsPDF: { unit: 'mm', format: 'a3', orientation: 'landscape' },
-                })
+    // Generate PDF with customer name and order number in the filename
+    html2pdf().from(document.body)
+        .set({
+            filename: `${sanitizedCustomerName}_${sanitizedOrderNumber}.pdf`,
+            image: { type: 'jpeg', quality: 0.98 },
+            html2canvas: { scale: 2 },
+            jsPDF: { unit: 'mm', format: 'a3', orientation: 'landscape' },
+        })
+        .toPdf()
+        .get('pdf')
+        .then(function (pdf) {
+            const totalPages = pdf.internal.getNumberOfPages();
+            pdf.setFontSize(10); // Set the font size for the page numbers
+            pdf.setTextColor(150); // Set the text color for the page numbers
 
-                .then(() => {
-                    // Use setTimeout to ensure the buttons are shown after PDF generation
-                    setTimeout(() => {
-                        addButton.style.display = 'inline-block';
-                        saveButton.style.display = 'inline-block';
-                        clearButton.style.display = 'inline-block';
-                        commentButton.style.display = 'inline-block';
-                    }, 0);
-                })
-                .catch((error) => {
-                    console.error('Error generating PDF:', error);
-                    addButton.style.display = 'inline-block';
-                    saveButton.style.display = 'inline-block';
-                    learButton.style.display = 'inline-block';
-                });
+            for (let i = 1; i <= totalPages; i++) {
+                pdf.setPage(i);
+                pdf.text('Page ' + i + ' of ' + totalPages, pdf.internal.pageSize.getWidth() - 30, pdf.internal.pageSize.getHeight() - 10);
             }
+        })
+        .save()
+        .then(() => {
+            addButton.style.display = 'inline-block';
+            saveButton.style.display = 'inline-block';
+            clearButton.style.display = 'inline-block';
+            commentButton.style.display = 'inline-block';
+        })
+        .catch((error) => {
+            console.error('Error generating PDF:', error);
+            addButton.style.display = 'inline-block';
+            saveButton.style.display = 'inline-block';
+            clearButton.style.display = 'inline-block';
+            commentButton.style.display = 'inline-block';
+        });
+}
 
 
             function clearWindowInfo() {

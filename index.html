@@ -17,27 +17,27 @@
                 font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
                 margin: 0;
                 padding: 0;
-                background-color: #ffffff;
+                background-color: #f5f5f5;
                 color: #333;
             }
 
             form {
                 width: 97%;
                 margin: 10px auto;
-                background-color: #ececec;
+                background-color: #f5f5f5;
                 padding: 15px;
                 border-radius: 8px;
                 box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
             }
 
             section {
-                margin-bottom: 25px;
+                /*margin-bottom: 25px;*/
                 display: flex;
                 flex-wrap: wrap;
                 justify-content: space-between;
                 text-align: center;
                 font-size: 16px;
-                padding-top: 22px;
+                padding-top: 15px;
                 page-break-inside: avoid;
             }
             
@@ -65,6 +65,15 @@
                 color: #3498db;
             }
 
+            h3 {
+                width: 100%;
+                text-align: center;
+                margin-bottom: 0px;
+                font-size: 20px;
+                /*margin-left: 25px;*/
+                color: #3498db;
+            }
+
             .form-group {
                 width: calc(48% - 10px);
                 margin-bottom: 15px;
@@ -73,7 +82,7 @@
             label {
                 margin-bottom: 8px;
                 display: block;
-                font-weight: bold;
+                /*font-weight: bold;*/
             }
 
             input, select {
@@ -121,9 +130,10 @@
             
 
             #commentSection {
-    width: 97%;
-    margin: 10px auto;
-    background-color: #ececec;
+    width: 100%;
+    /*margin: 10px auto;*/
+    background-color: ##f5f5f5;
+    margin-top: 5px;
     /*padding: 15px;*/
     border-radius: 8px;
     /*box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);*/
@@ -152,8 +162,9 @@
 .page-break {
     page-break-before: always;
 }
-
-
+.left-aligned {
+        text-align: left;
+    }
 
         </style>
     </head>
@@ -166,10 +177,11 @@
     </div>
         <form>
             <!-- Customer Information Section -->
+            <h3>Soroush - I0344</h3>
             <h2>Customer Information</h2>
             <section>
 
-                <div class="customerInfo" style="width: calc(20% - 10px);">
+                <div class="customerInfo" style="width: calc(40% - 10px);">
                     <label for="room">Customer Name:</label>
                     <input type="text" class="room" name="customerName" id="customerName" required>
                 </div>
@@ -179,7 +191,7 @@
                     <input type="text" class="quantity" name="orderNumber" id="orderNumber" required>
                 </div>
 
-                <div class="customerInfo">
+                <div class="customerInfo" style="width: calc(20% - 10px);">
                     <label for="mount">Store Number:</label>
                     <input type="text" class="mount" name="storeNumber" id="storeNumber" required>
                 </div>
@@ -189,7 +201,7 @@
                     <input type="date" class="width" name="date" id="date" required>
                 </div>
 
-                <div class="customerInfo">
+                <!-- <div class="customerInfo">
                     <label for="height">Installer ID:</label>
                     <input type="text" class="height" name="intallerID" id="intallerID" required placeholder="I0344">
                 </div>
@@ -197,7 +209,7 @@
                 <div class="customerInfo">
                     <label for="depth">Installer Name:</label>
                     <input type="text" class="depth" name="intallerName" id="intallerName" required placeholder="Soroush">
-                </div>
+                </div> -->
             </section>
            
 
@@ -207,7 +219,7 @@
 
                 <div class="windowInfoSection window-info" style="width: calc(100% - 5px);" >
                     <!-- <label for="room">ROOM:</label> -->
-                    <input type="text" class="room" name="room" id="room1" style="background-color: #D8FFD3; font-weight: bold; " required>
+                    <input type="text" class="room" name="room" id="room1" style="background-color: #FFFCD3; font-weight: bold; " required>
                 </div>
                 <div class="windowInfoSection" style="width: calc(15% - 60px);">
                     <label for="type">Type:</label>
@@ -215,8 +227,11 @@
                         <option value="mt6"> </option>
                         <option value="Roller">Roller Shade</option>
                         <option value="Cascade">Cascade</option>
-                        <option value="Horizantal">2" Horizantal</option>
+                        <option value="Horizantal1">1" Aluminium</option>
+                        <option value="Horizantal2">2" Horizantal</option>
                         <option value="Vertical">Vertical</option>
+                        <option value="Romen">Romen</option>
+                        <option value="ww">Woven Wood</option>
                     </select>
                 </div>
         
@@ -226,7 +241,7 @@
                     <input type="text" class="quantity" name="quantity" id="quantity1" required placeholder="1">
                 </div>
         
-                <div class="windowInfoSection" style="width: calc(5% - 5px);">
+                <div class="windowInfoSection" style="width: calc(10% - 5px);">
                     <label for="mount">I/O:</label>
                     <select class="mount" name="mount" id="mount1" required>
                         <option value="mt5"> </option>
@@ -399,8 +414,8 @@
                     orderNumber: document.getElementById('orderNumber').value,
                     storeNumber: document.getElementById('storeNumber').value,
                     date: document.getElementById('date').value,
-                    intallerID: document.getElementById('intallerID').value,
-                    intallerName: document.getElementById('intallerName').value,
+                    // intallerID: document.getElementById('intallerID').value,
+                    // intallerName: document.getElementById('intallerName').value,
                 };
 
                 const windowDataList = [];
@@ -518,7 +533,7 @@
         const commentTextarea = document.createElement('textarea');
         commentTextarea.name = 'comments';
         commentTextarea.id = 'comments';
-        commentTextarea.rows = '4';
+        commentTextarea.rows = '2';
         commentTextarea.style.width = '100%';
         commentSection.appendChild(commentTextarea);
 
